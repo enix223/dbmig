@@ -13,19 +13,29 @@ import (
 	_ "github.com/lib/pq"
 )
 
+const ver = "1.0.0"
+
 var dir = flag.String("d", ".", "Migration dir")
 var pgpassword = flag.String("p", "./.pgpass", "PGPASSWORD file path")
 var table = flag.String("t", "ishare_migrations", "Migration table")
+var version = flag.Bool("v", false, "Print version")
 
 func main() {
 	flag.Parse()
+
+	if *version {
+		fmt.Printf("dbmig version %s\n", ver)
+		return
+	}
 
 	// 1. read password file
 	line, err := ioutil.ReadFile(*pgpassword)
 	if err != nil {
 		log.Panicf("can not read PGPASSWORD file: %s", err.Error())
 	}
-	comps := strings.Split(string(line), ":")
+
+	content := strings.TrimSpace(string(line))
+	comps := strings.Split(content, ":")
 
 	// 2. connect db
 	connStr := fmt.Sprintf("postgres://%s:%s@%s:%s/%s?sslmode=disable",
