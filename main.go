@@ -14,12 +14,13 @@ import (
 
 const ver = "1.0.0"
 
+var version = flag.Bool("version", false, "Print version")
+
 var dir = flag.String("dir", ".", "Migration dir")
 var table = flag.String("table", "ishare_migrations", "Migration table")
-var version = flag.Bool("version", false, "Print version")
 var host = flag.String("host", "localhost", "Database host")
 var port = flag.String("port", "5432", "Database port")
-var name = flag.String("name", "postgres", "Database name")
+var dbname = flag.String("name", "postgres", "Database name")
 var username = flag.String("user", "postgres", "Database user")
 var pass = flag.String("password", "password", "Database password")
 
@@ -33,7 +34,7 @@ func main() {
 
 	// connect db
 	connStr := fmt.Sprintf("postgres://%s:%s@%s:%s/%s?sslmode=disable",
-		*username, *pass, *host, *port, *name)
+		*username, *pass, *host, *port, *dbname)
 	db, err := sql.Open("postgres", connStr)
 
 	// Loop over dir
