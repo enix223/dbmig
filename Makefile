@@ -1,5 +1,5 @@
 BINARY := dbmig
-VERSION ?= latest
+VERSION := 1.0.0
 os = $(word 1, $@)
 PLATFORMS := windows linux darwin
 
@@ -8,14 +8,15 @@ PLATFORMS := windows linux darwin
 .PHONY: $(PLATFORMS)
 $(PLATFORMS):
 	mkdir -p release
-	GOOS=$(os) GOARCH=amd64 go build -o release/$(BINARY)-$(VERSION)-$(os)-amd64 main.go
+	GOOS=$(os) GOARCH=amd64 go build -o release/$(BINARY)-$(os)-amd64 main.go
 
 .PHONY: install
 install: darwin
-	cp release/$(BINARY)-$(VERSION)-darwin-amd64 ${GOPATH}/bin/$(BINARY)
+	cp release/$(BINARY)-darwin-amd64 ${GOPATH}/bin/$(BINARY)
 
 .PHONY: release
 release: windows linux darwin
+	mv release/$(BINARY)-windows-amd64 release/$(BINARY)-windows-amd64.exe
 
 .PHONY: clean
 clean:
