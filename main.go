@@ -8,17 +8,20 @@ import (
 	"log"
 	"path"
 	"regexp"
-	"strings"
 
 	_ "github.com/lib/pq"
 )
 
 const ver = "1.0.0"
 
-var dir = flag.String("d", ".", "Migration dir")
-var pgpassword = flag.String("p", "./.pgpass", "PGPASSWORD file path")
-var table = flag.String("t", "ishare_migrations", "Migration table")
-var version = flag.Bool("v", false, "Print version")
+var dir = flag.String("dir", ".", "Migration dir")
+var table = flag.String("table", "ishare_migrations", "Migration table")
+var version = flag.Bool("version", false, "Print version")
+var host = flag.String("host", "localhost", "Database host")
+var port = flag.String("port", "5432", "Database port")
+var name = flag.String("name", "postgres", "Database name")
+var username = flag.String("user", "postgres", "Database user")
+var pass = flag.String("password", "password", "Database password")
 
 func main() {
 	flag.Parse()
@@ -28,18 +31,9 @@ func main() {
 		return
 	}
 
-	// 1. read password file
-	line, err := ioutil.ReadFile(*pgpassword)
-	if err != nil {
-		log.Panicf("can not read PGPASSWORD file: %s", err.Error())
-	}
-
-	content := strings.TrimSpace(string(line))
-	comps := strings.Split(content, ":")
-
-	// 2. connect db
+	// connect db
 	connStr := fmt.Sprintf("postgres://%s:%s@%s:%s/%s?sslmode=disable",
-		comps[3], comps[4], comps[0], comps[1], comps[2])
+		*username, *pass, *host, *port, *name)
 	db, err := sql.Open("postgres", connStr)
 
 	// Loop over dir
