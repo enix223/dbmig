@@ -83,5 +83,6 @@ func main() {
 			// Already Load it
 			log.Printf("Already loaded\n")
 		}
+		rows.Close()
 	}
 }

@@ -8,7 +8,7 @@ PLATFORMS := windows linux darwin
 .PHONY: $(PLATFORMS)
 $(PLATFORMS):
 	mkdir -p release
-	GOOS=$(os) GOARCH=amd64 go build -o release/$(BINARY)-$(os)-amd64 main.go
+	GOOS=$(os) GOARCH=amd64 go build -o release/$(BINARY)-$(os)-$(VERSION)-amd64 main.go
 
 .PHONY: install
 install: darwin
@@ -16,7 +16,7 @@ install: darwin
 
 .PHONY: release
 release: windows linux darwin
-	mv release/$(BINARY)-windows-amd64 release/$(BINARY)-windows-amd64.exe
+	mv release/$(BINARY)-windows-$(VERSION)-amd64 release/$(BINARY)-windows-$(VERSION)-amd64.exe
 
 .PHONY: clean
 clean:
