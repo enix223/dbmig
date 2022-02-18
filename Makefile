@@ -1,5 +1,5 @@
 BINARY := dbmig
-VERSION := 1.0.0
+VERSION := 1.1.0
 os = $(word 1, $@)
 PLATFORMS := windows linux darwin
 

@@ -1,5 +1,5 @@
 module github.com/enix223/dbmig
 
-require github.com/lib/pq v1.0.0
+require github.com/lib/pq v1.10.4
 
-go 1.14
+go 1.16
